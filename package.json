@@ -1,0 +1,25 @@
+{
+  "name": "tableau-rest",
+  "version": "0.1.0",
+  "description": "javascript sdk via tableau rest api",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheap-pets/tableau-rest.git"
+  },
+  "keywords": [
+    "tableau"
+  ],
+  "author": "scrollbar-ww",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cheap-pets/tableau-rest/issues"
+  },
+  "homepage": "https://github.com/cheap-pets/tableau-rest#readme",
+  "dependencies": {
+    "superagent": "^4.0.0-beta.5"
+  }
+}
