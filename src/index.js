@@ -1,20 +1,58 @@
-const request = require('superagent')
-const rpc = require('./rpc')
+const $request = require('./request')
 
-const PROXY_METHODS = [ 'switchSite', '' ]
+const { signIn, signOut } = require('./auth')
+const { switchSite, createSite, querySites } = require('./site')
+const { queryDataSources, downloadDataSource, publishDataSource } = require('./datasource')
+const { createProject, queryProjects } = require('./project')
+const { queryWorkbooks, downloadWorkbook, publishWorkbook } = require('./workbook')
+
+const PROXY_METHODS = [
+  'switchSite',
+  'createSite',
+  'querySites',
+  'queryDataSources',
+  'downloadDataSource',
+  'publishDataSource',
+  'createProject',
+  'queryProjects',
+  'queryWorkbooks',
+  'downloadWorkbook',
+  'publishWorkbook'
+]
 
 function createRetryRequestProxy (client) {
   return new Proxy(client, {
     get: function (target, property, receiver) {
-      return (PROXY_METHODS.includes(property) && (typeof target[property] === 'function'))
+      return PROXY_METHODS.includes(property) && typeof target[property] === 'function'
         ? function () {
-          try {
-            Reflect.apply(property, target, arguments)
-          } catch (e) {
-            if (e.tableauErrorCode === '401002') {
-              return target.login().then(() => Reflect.apply(property, target, arguments))
-            } else throw e
-          }
+          return new Promise((resolve, reject) => {
+            Reflect
+              .apply(target[property], target, arguments)
+              .then(data => {
+                resolve(data)
+              })
+              .catch(e => {
+                if (e.status === 401) {
+                  target
+                    .signIn()
+                    .then(() => {
+                      Reflect
+                        .apply(target[property], target, arguments)
+                        .then(data => {
+                          resolve(data)
+                        })
+                        .catch(err => {
+                          reject(err)
+                        })
+                    })
+                    .catch(err => {
+                      reject(err)
+                    })
+                } else {
+                  reject(e)
+                }
+              })
+          })
         }
         : Reflect.get(target, property, receiver)
     }
@@ -22,62 +60,32 @@ function createRetryRequestProxy (client) {
 }
 
 class TableauClient {
-  constructor (options = { }) {
-    this.agent = request.agent()
+  constructor (options = {}) {
+    const { host, apiVersion } = options
+    this.$options = options
+    this.$host = host
+    this.$apiRoot = `${host}/api/${apiVersion || '3.1'}`
+    this.$jar = $request.jar()
+    if (options.autoSignIn !== false) this.signIn()
     return createRetryRequestProxy(this)
   }
-
-  async login (options) {
-
-  }
-
-  logout () {
-
-  }
-
-  switchSite (contentUrl) {
-
-  }
-
-  createSite (options = {}) {
-
-  }
-
-  suspendSite (contentUrl) {
-
-  }
-
-  querySites (options = {}) {
-
-  }
-
-  queryWorkbooks (options = {}) {
-
-  }
-
-  downloadWorkbook (options = {}) {
-
-  }
-
-  publishWorkbook (options = {}) {
-
-  }
-
-  queryViews (options = {}) {
-
-  }
-
-  queryDataSources (options = {}) {
-
-  }
-
-  downloadDataSource (options = {}) {
-
-  }
-
-  publishDataSource (options = {}) {
-
-  }
 }
+
+Object.assign(TableauClient.prototype, {
+  $request,
+  signIn,
+  signOut,
+  switchSite,
+  createSite,
+  querySites,
+  queryDataSources,
+  downloadDataSource,
+  publishDataSource,
+  createProject,
+  queryProjects,
+  queryWorkbooks,
+  downloadWorkbook,
+  publishWorkbook
+})
 
 module.exports = TableauClient
