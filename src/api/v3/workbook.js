@@ -6,7 +6,7 @@ const downloadDir = path.resolve(path.parse(require.main.filename).dir, 'downloa
 function queryWorkbooks (options = {}) {
   return this.$request({
     method: 'GET',
-    url: `${this.$apiRoot}/sites/${this.$siteId}/workbooks`
+    url: 'workbooks'
   }).then(data => {
     return data.workbooks.workbook
   })
@@ -27,7 +27,7 @@ function downloadWorkbook (workbookId, options = {}) {
       })
       this.$request({
         method: 'GET',
-        url: `${this.$apiRoot}/sites/${this.$siteId}/workbooks/${workbookId}/content`
+        url: `workbooks/${workbookId}/content`
       }).pipe(stream)
     } catch (e) {
       reject(e)
@@ -52,7 +52,7 @@ function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
 
   return this.$request({
     method: 'POST',
-    url: `${this.$apiRoot}/sites/${this.$siteId}/workbooks?overwrite=true`,
+    url: 'workbooks?overwrite=true',
     headers: { 'content-type': 'multipart/mixed' },
     multipart: [
       {
@@ -67,19 +67,14 @@ function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
       }
     ]
   }).then(data => {
-    console.log('publish workbook:', name, 'ok', `projectId=${projectId}`)
+    console.info('publish workbook:', name, 'ok', `projectId=${projectId}`)
   }).catch(err => {
-    console.error('publish workbook:', err.message, name, 'ok', `projectId=${projectId}`)
+    console.error('publish workbook:', err.message, name, `projectId=${projectId}`)
   })
-}
-
-function queryViews (options = {}) {
-
 }
 
 module.exports = {
   queryWorkbooks,
   downloadWorkbook,
-  publishWorkbook,
-  queryViews
+  publishWorkbook
 }

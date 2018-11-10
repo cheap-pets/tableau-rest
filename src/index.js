@@ -1,29 +1,17 @@
-const $request = require('./request')
+const request = require('./request')
 
-const { signIn, signOut } = require('./auth')
-const { switchSite, createSite, querySites } = require('./site')
-const { queryDataSources, downloadDataSource, publishDataSource } = require('./datasource')
-const { createProject, queryProjects } = require('./project')
-const { queryWorkbooks, downloadWorkbook, publishWorkbook } = require('./workbook')
+const getAPIs = require('./api')
 
-const PROXY_METHODS = [
+const PROXY_METHODS_EXCEPTION = [
+  '$request',
   'switchSite',
-  'createSite',
-  'querySites',
-  'queryDataSources',
-  'downloadDataSource',
-  'publishDataSource',
-  'createProject',
-  'queryProjects',
-  'queryWorkbooks',
-  'downloadWorkbook',
-  'publishWorkbook'
+  'createSite'
 ]
 
-function createRetryRequestProxy (client) {
+function createRequestProxy (client) {
   return new Proxy(client, {
     get: function (target, property, receiver) {
-      return PROXY_METHODS.includes(property) && typeof target[property] === 'function'
+      return !PROXY_METHODS_EXCEPTION.includes(property) && typeof target[property] === 'function'
         ? function () {
           return new Promise((resolve, reject) => {
             Reflect
@@ -36,8 +24,7 @@ function createRetryRequestProxy (client) {
                   target
                     .signIn()
                     .then(() => {
-                      Reflect
-                        .apply(target[property], target, arguments)
+                      Reflect.apply(target[property], target, arguments)
                         .then(data => {
                           resolve(data)
                         })
@@ -61,31 +48,15 @@ function createRetryRequestProxy (client) {
 
 class TableauClient {
   constructor (options = {}) {
-    const { host, apiVersion } = options
+    const { host, version, autoSignIn } = options
     this.$options = options
     this.$host = host
-    this.$apiRoot = `${host}/api/${apiVersion || '3.1'}`
-    this.$jar = $request.jar()
-    if (options.autoSignIn !== false) this.signIn()
-    return createRetryRequestProxy(this)
+    this.$request = request
+    this.$jar = request.jar()
+    Object.assign(this, getAPIs(version))
+    if (autoSignIn !== false && this.signIn) this.signIn()
+    return createRequestProxy(this)
   }
 }
-
-Object.assign(TableauClient.prototype, {
-  $request,
-  signIn,
-  signOut,
-  switchSite,
-  createSite,
-  querySites,
-  queryDataSources,
-  downloadDataSource,
-  publishDataSource,
-  createProject,
-  queryProjects,
-  queryWorkbooks,
-  downloadWorkbook,
-  publishWorkbook
-})
 
 module.exports = TableauClient

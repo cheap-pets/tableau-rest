@@ -1,25 +1,9 @@
-function switchSite (contentUrl) {
-  return this
-    .$request({
-      method: 'POST',
-      url: `${this.$apiRoot}/auth/switchSite`,
-      body: {
-        site: {
-          contentUrl
-        }
-      }
-    })
-    .then(data => {
-      this.$siteId = data.credentials.site.id
-      this.$token = data.credentials.token
-    })
-}
-
 function createSite (name, contentUrl) {
   return this
     .$request({
+      sited: false,
       method: 'POST',
-      url: `${this.$apiRoot}/sites`,
+      url: 'sites',
       body: {
         site: {
           name,
@@ -36,8 +20,9 @@ function suspendSite (contentUrl) {
 function querySites (options = {}) {
   return this
     .$request({
+      sited: false,
       method: 'GET',
-      url: `${this.$apiRoot}/sites`
+      url: 'sites'
     })
     .then(data => {
       return data.sites.site
@@ -45,7 +30,6 @@ function querySites (options = {}) {
 }
 
 module.exports = {
-  switchSite,
   createSite,
   suspendSite,
   querySites

@@ -4,8 +4,9 @@ function signIn (options = {}) {
   this.$site = site || ''
 
   return this.$request({
+    sited: false,
     method: 'POST',
-    url: `${this.$apiRoot}/auth/signin`,
+    url: 'auth/signin',
     body: {
       credentials: {
         name: user,
@@ -24,14 +25,34 @@ function signIn (options = {}) {
 
 function signOut () {
   return this.$request({
+    sited: false,
     method: 'POST',
-    url: `${this.$apiRoot}/auth/signout`
+    url: 'auth/signout'
   }).then(() => {
     delete this.$token
   })
 }
 
+function switchSite (contentUrl) {
+  return this
+    .$request({
+      sited: false,
+      method: 'POST',
+      url: 'auth/switchSite',
+      body: {
+        site: {
+          contentUrl
+        }
+      }
+    })
+    .then(data => {
+      this.$siteId = data.credentials.site.id
+      this.$token = data.credentials.token
+    })
+}
+
 module.exports = {
   signIn,
-  signOut
+  signOut,
+  switchSite
 }

@@ -8,7 +8,7 @@ function queryDataSources (options = {}) {
   return this
     .$request({
       method: 'GET',
-      url: `${this.$apiRoot}/sites/${this.$siteId}/datasources`
+      url: 'datasources'
     })
     .then(data => {
       return data.datasources.datasource
@@ -38,7 +38,7 @@ function downloadDataSource (datasourceId, options = {}) {
       })
       this.$request({
         method: 'GET',
-        url: `${this.$apiRoot}/sites/${this.$siteId}/datasources/${datasourceId}/content`
+        url: `datasources/${datasourceId}/content`
       }).pipe(stream)
     } catch (e) {
       reject(e)
@@ -60,7 +60,7 @@ function publishDataSource ({ name, projectId, filePath, fileName, connectionCre
 
   return this.$request({
     method: 'POST',
-    url: `${this.$apiRoot}/sites/${this.$siteId}/datasources?overwrite=true`,
+    url: 'datasources?overwrite=true',
     headers: { 'content-type': 'multipart/mixed' },
     multipart: [
       {

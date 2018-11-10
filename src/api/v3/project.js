@@ -2,7 +2,7 @@ function createProject ({ name }) {
   return this
     .$request({
       method: 'POST',
-      url: `${this.$apiRoot}/sites/${this.$siteId}/projects`,
+      url: 'projects',
       body: {
         project: {
           name
@@ -18,7 +18,7 @@ function queryProjects (options) {
   return this
     .$request({
       method: 'GET',
-      url: `${this.$apiRoot}/sites/${this.$siteId}/projects`
+      url: 'projects'
     })
     .then(data => {
       return data.projects.project
