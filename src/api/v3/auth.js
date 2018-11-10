@@ -36,7 +36,7 @@ function signOut () {
 function switchSite (contentUrl) {
   return this
     .$request({
-      sited: false,
+      site: false,
       method: 'POST',
       url: 'auth/switchSite',
       body: {
