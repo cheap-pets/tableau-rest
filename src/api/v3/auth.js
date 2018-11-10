@@ -4,7 +4,7 @@ function signIn (options = {}) {
   this.$site = site || ''
 
   return this.$request({
-    sited: false,
+    site: false,
     method: 'POST',
     url: 'auth/signin',
     body: {
@@ -25,7 +25,7 @@ function signIn (options = {}) {
 
 function signOut () {
   return this.$request({
-    sited: false,
+    site: false,
     method: 'POST',
     url: 'auth/signout'
   }).then(() => {

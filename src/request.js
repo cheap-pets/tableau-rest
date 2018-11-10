@@ -7,9 +7,9 @@ const BASE_REQUEST_OPTIONS = {
 
 function request (options = {}) {
   const { host, version } = this.$options
-  const urlSitePart = options.sited ? `sites/${this.$siteId}/` : ''
+  const urlSitePart = options.site === false ? '' : `sites/${this.$siteId}/`
   options.url = `${host}/api/${version}/${urlSitePart}` + options.url
-  delete options.sited
+  delete options.site
   const headers = Object.assign({}, options.headers)
   if (this.$token) headers['X-Tableau-Auth'] = this.$token
   Object.assign(options, BASE_REQUEST_OPTIONS, { jar: this.$jar, headers })

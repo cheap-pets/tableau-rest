@@ -1,7 +1,7 @@
 function createSite (name, contentUrl) {
   return this
     .$request({
-      sited: false,
+      site: false,
       method: 'POST',
       url: 'sites',
       body: {
@@ -20,7 +20,7 @@ function suspendSite (contentUrl) {
 function querySites (options = {}) {
   return this
     .$request({
-      sited: false,
+      site: false,
       method: 'GET',
       url: 'sites'
     })
