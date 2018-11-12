@@ -24,9 +24,6 @@ function querySites (options = {}) {
       method: 'GET',
       url: 'sites'
     })
-    .then(data => {
-      return data.sites.site
-    })
 }
 
 module.exports = {

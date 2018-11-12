@@ -7,8 +7,6 @@ function queryWorkbooks (options = {}) {
   return this.$request({
     method: 'GET',
     url: 'workbooks'
-  }).then(data => {
-    return data.workbooks.workbook
   })
 }
 
@@ -66,10 +64,6 @@ function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
         body: createReadStream(filePath)
       }
     ]
-  }).then(data => {
-    console.info('publish workbook:', name, 'ok', `projectId=${projectId}`)
-  }).catch(err => {
-    console.error('publish workbook:', err.message, name, `projectId=${projectId}`)
   })
 }
 

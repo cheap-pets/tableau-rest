@@ -10,9 +10,6 @@ function queryDataSources (options = {}) {
       method: 'GET',
       url: 'datasources'
     })
-    .then(data => {
-      return data.datasources.datasource
-    })
 }
 
 function downloadDataSource (datasourceId, options = {}) {

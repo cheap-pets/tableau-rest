@@ -1,12 +1,10 @@
-function createProject ({ name }) {
+function createProject (project) {
   return this
     .$request({
       method: 'POST',
       url: 'projects',
       body: {
-        project: {
-          name
-        }
+        project
       }
     })
     .then(data => {
@@ -19,9 +17,6 @@ function queryProjects (options) {
     .$request({
       method: 'GET',
       url: 'projects'
-    })
-    .then(data => {
-      return data.projects.project
     })
 }
 
