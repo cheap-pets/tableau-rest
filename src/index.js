@@ -1,5 +1,6 @@
-const request = require('./request')
+const isFunction = require('lodash.isfunction')
 
+const request = require('./request')
 const getAPIs = require('./api')
 
 const PROXY_METHODS_EXCEPTION = [
@@ -11,7 +12,7 @@ const PROXY_METHODS_EXCEPTION = [
 function createRequestProxy (client) {
   return new Proxy(client, {
     get: function (target, property, receiver) {
-      return !PROXY_METHODS_EXCEPTION.includes(property) && typeof target[property] === 'function'
+      return !PROXY_METHODS_EXCEPTION.includes(property) && isFunction(target[property])
         ? function () {
           return new Promise((resolve, reject) => {
             Reflect
