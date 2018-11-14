@@ -3,7 +3,7 @@ const { createSite, querySites } = require('./site')
 const { queryDataSources, downloadDataSource, publishDataSource } = require('./datasource')
 const { createProject, queryProjects } = require('./project')
 const { queryWorkbooks, downloadWorkbook, publishWorkbook } = require('./workbook')
-const { queryViews } = require('./view')
+const { queryViews, getTrustedViewUrl } = require('./view')
 
 module.exports = {
   signIn,
@@ -19,5 +19,6 @@ module.exports = {
   queryWorkbooks,
   downloadWorkbook,
   publishWorkbook,
-  queryViews
+  queryViews,
+  getTrustedViewUrl
 }

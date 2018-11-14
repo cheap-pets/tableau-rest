@@ -21,7 +21,7 @@ function createRequestProxy (client) {
                 resolve(data)
               })
               .catch(e => {
-                if (e.status === 401) {
+                if (Object(e.response).statusCode === 401) {
                   target
                     .signIn()
                     .then(() => {
@@ -49,13 +49,11 @@ function createRequestProxy (client) {
 
 class TableauClient {
   constructor (options = {}) {
-    const { host, version, autoSignIn } = options
+    const { version } = options
     this.$options = options
-    this.$host = host
     this.$request = request
     this.$jar = request.jar()
     Object.assign(this, getAPIs(version))
-    if (autoSignIn !== false && this.signIn) this.signIn()
     return createRequestProxy(this)
   }
 }
