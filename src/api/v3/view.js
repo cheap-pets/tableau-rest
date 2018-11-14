@@ -33,7 +33,7 @@ function getTrustedViewUrl ({ host, site, contentUrl, userName }) {
   const form = { username: userName || this.$options.user }
   site = (site || site === '') ? site : this.$site
   if (site) form.target_site = site
-  request({
+  return request({
     followAllRedirects: true,
     method: 'POST',
     url: `${host || this.$options.host}/trusted`,
