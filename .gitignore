@@ -63,4 +63,6 @@ typings/
 # vscode
 .vscode/
 
-test/
+# package-json
+package-lock.json
+yarn.lock
