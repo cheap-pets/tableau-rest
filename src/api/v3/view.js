@@ -31,12 +31,13 @@ function queryViews (options = {}) {
 
 function getTrustedViewUrl ({ host, site, contentUrl, userName }) {
   const form = { username: userName || this.$options.user }
+  host = host || this.$options.host
   site = (site || site === '') ? site : this.$site
   if (site) form.target_site = site
   return request({
     followAllRedirects: true,
     method: 'POST',
-    url: `${host || this.$options.host}/trusted`,
+    url: `${host}/trusted`,
     form,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
