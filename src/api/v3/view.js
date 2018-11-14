@@ -7,7 +7,10 @@ function queryViews (options = {}) {
   let query = ''
   if (isInteger(pageSize)) query += `&pageSize=${pageSize}`
   if (isInteger(pageNumber)) query += `&pageNumber=${pageNumber}`
-  if (name) query += `&filter=name:eq:${name}`
+  if (name) query += `&filter=name:eq:${encodeURIComponent(name)}`
+  if (workbookName || projectName) {
+    query += `&fields=_default_${workbookName ? ',workbook.name' : ''}${projectName ? ',project.name' : ''}`
+  }
 
   let url = workbookId ? `workbooks/${workbookId}/views` : 'views'
   if (query.length) url += '?' + query.substr(1)
@@ -15,7 +18,7 @@ function queryViews (options = {}) {
   return this
     .$request({
       method: 'GET',
-      url
+      url: url
     })
     .then(data => {
       if (projectId || projectName || workbookName) {
