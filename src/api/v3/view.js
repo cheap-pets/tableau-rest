@@ -30,6 +30,7 @@ function queryViews (options = {}) {
 
 function getTrustedViewUrl ({ host, site, contentUrl, userName }) {
   const form = { username: userName }
+  site = site || this.$site
   if (site) form.target_site = site
   request({
     followAllRedirects: true,
