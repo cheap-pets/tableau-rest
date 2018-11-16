@@ -32,9 +32,10 @@ function queryViews (options = {}) {
     })
 }
 
-function getTrustedViewUrl ({ host, site, contentUrl, userName }) {
+function getTrustedViewUrl ({ host, clientHost, site, contentUrl, userName }) {
   const form = { username: userName || this.$options.user }
   host = host || this.$options.host
+  clientHost = clientHost || host
   site = (site || site === '') ? site : this.$site
   if (site) form.target_site = site
   return request({
@@ -52,7 +53,7 @@ function getTrustedViewUrl ({ host, site, contentUrl, userName }) {
     if (idx) arr.splice(idx, 1)
     const viewPart = arr.join('/')
     const sitePart = site ? `/t/${site}` : ''
-    return `${host}/trusted/${ticket}${sitePart}/views/${viewPart}`
+    return `${clientHost}/trusted/${ticket}${sitePart}/views/${viewPart}`
   })
 }
 
