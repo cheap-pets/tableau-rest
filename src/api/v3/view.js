@@ -39,6 +39,7 @@ function getTrustedViewUrl ({ host, clientHost, site, contentUrl, userName }) {
   site = (site || site === '') ? site : this.$site
   if (site) form.target_site = site
   return request({
+    rejectUnauthorized: this.$options.rejectUnauthorized,
     followAllRedirects: true,
     method: 'POST',
     url: `${host}/trusted`,

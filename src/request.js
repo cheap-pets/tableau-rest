@@ -12,7 +12,10 @@ function request (options = {}) {
   delete options.site
   const headers = Object.assign({}, options.headers)
   if (this.$token) headers['X-Tableau-Auth'] = this.$token
-  Object.assign(options, BASE_REQUEST_OPTIONS, { jar: this.$jar, headers })
+  Object.assign(
+    options,
+    BASE_REQUEST_OPTIONS,
+    { jar: this.$jar, headers, rejectUnauthorized: this.$options.rejectUnauthorized })
   return req(options)
 }
 
