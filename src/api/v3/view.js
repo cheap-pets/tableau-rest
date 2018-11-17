@@ -21,7 +21,7 @@ function queryViews (options = {}) {
       url: url
     })
     .then(data => {
-      if (projectId || projectName || workbookName) {
+      if (Object(data.views).view && (projectId || projectName || workbookName)) {
         data.views.view = data.views.view.filter(({ project, workbook }) => {
           return (!projectId || project.id === projectId) &&
             (!projectName || project.name === projectName) &&
