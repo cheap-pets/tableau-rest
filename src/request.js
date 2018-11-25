@@ -6,9 +6,10 @@ const BASE_REQUEST_OPTIONS = {
 }
 
 function request (options = {}) {
-  const { host, version } = this.$options
+  const { host, version, requestTimeout } = this.$options
   const urlSitePart = options.site === false ? '' : `sites/${this.$siteId}/`
   options.url = `${host}/api/${version}/${urlSitePart}` + options.url
+  if (requestTimeout && !options.timeout) options.timeout = requestTimeout
   delete options.site
   const headers = Object.assign({}, options.headers)
   if (this.$token) headers['X-Tableau-Auth'] = this.$token
