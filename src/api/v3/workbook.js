@@ -33,7 +33,7 @@ function downloadWorkbook (workbookId, options = {}) {
   })
 }
 
-function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
+function publishWorkbook ({ name, projectId, filePath, fileName, connection, showTabs }) {
   const connectionXml = connection
     ? `<connections>
         <connection serverAddress="${connection.server}" serverPort="${connection.port}">
@@ -41,8 +41,9 @@ function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
         </connection>
       </connections>`
     : ''
+  let showTabsValue = showTabs === true ? 'true' : 'false'
   const xmlString = `<tsRequest>
-    <workbook name="${name}">
+    <workbook name="${name}" showTabs="${showTabsValue}">
       ${connectionXml}
       <project id="${projectId}" />
     </workbook>
