@@ -1,8 +1,8 @@
 const { signIn, signOut, switchSite } = require('./auth')
 const { createSite, querySites } = require('./site')
-const { queryDataSources, downloadDataSource, publishDataSource } = require('./datasource')
+const { queryDataSources, downloadDataSource, publishDataSource, deleteDataSource } = require('./datasource')
 const { createProject, queryProjects } = require('./project')
-const { queryWorkbooks, downloadWorkbook, publishWorkbook } = require('./workbook')
+const { queryWorkbooks, downloadWorkbook, publishWorkbook, deleteWorkbook } = require('./workbook')
 const { queryViews, getTrustedViewUrl } = require('./view')
 
 module.exports = {
@@ -14,11 +14,13 @@ module.exports = {
   queryDataSources,
   downloadDataSource,
   publishDataSource,
+  deleteDataSource,
   createProject,
   queryProjects,
   queryWorkbooks,
   downloadWorkbook,
   publishWorkbook,
+  deleteWorkbook,
   queryViews,
   getTrustedViewUrl
 }

@@ -74,8 +74,17 @@ function publishDataSource ({ name, projectId, filePath, fileName, connectionCre
   })
 }
 
+function deleteDataSource (datasourceId) {
+  return this
+    .$request({
+      method: 'DELETE',
+      url: `datasources/${datasourceId}`
+    })
+}
+
 module.exports = {
   queryDataSources,
   downloadDataSource,
-  publishDataSource
+  publishDataSource,
+  deleteDataSource
 }

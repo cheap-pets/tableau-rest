@@ -67,8 +67,17 @@ function publishWorkbook ({ name, projectId, filePath, fileName, connection }) {
   })
 }
 
+function deleteWorkbook (workbookId) {
+  return this
+    .$request({
+      method: 'DELETE',
+      url: `workbooks/${workbookId}`
+    })
+}
+
 module.exports = {
   queryWorkbooks,
   downloadWorkbook,
-  publishWorkbook
+  publishWorkbook,
+  deleteWorkbook
 }
