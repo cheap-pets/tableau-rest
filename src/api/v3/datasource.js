@@ -1,6 +1,7 @@
 const { createWriteStream, createReadStream, mkdirsSync, existsSync } = require('fs-extra')
 const path = require('path')
 const AdmZip = require('adm-zip')
+const he = require('he')
 
 const downloadDir = path.resolve(path.parse(require.main.filename).dir, 'downloads')
 
@@ -45,8 +46,10 @@ function downloadDataSource (datasourceId, options = {}) {
 
 function publishDataSource ({ name, projectId, filePath, fileName, connectionCredentials }) {
   const cc = connectionCredentials
+  const user = he.escape(cc.user)
+  const password = he.escape(cc.password)
   const connectionCredentialsXml = cc
-    ? `<connectionCredentials name="${cc.user}" password="${cc.password}" embed="${cc.embed || true}" />`
+    ? `<connectionCredentials name="${user}" password="${password}" embed="${cc.embed || true}" />`
     : ''
   const xmlString = `<tsRequest>
     <datasource name="${name}">

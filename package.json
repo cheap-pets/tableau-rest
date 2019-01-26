@@ -1,6 +1,6 @@
 {
   "name": "tableau-rest",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "javascript sdk via tableau rest api",
   "main": "src/index.js",
   "files": [
@@ -25,6 +25,7 @@
   "dependencies": {
     "adm-zip": "^0.4.11",
     "fs-extra": "^7.0.0",
+    "he": "^1.2.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isinteger": "^4.0.4",
     "request": "^2.88.0",
