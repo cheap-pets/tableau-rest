@@ -1,5 +1,5 @@
 function signIn (options = {}) {
-  Object.assign(this.$options, options)
+  if (options) this.$options = options
   const { user, password, site } = this.$options
   this.$site = site || ''
 
