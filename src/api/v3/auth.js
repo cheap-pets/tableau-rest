@@ -1,4 +1,4 @@
-function signIn (options = {}) {
+function signIn (options) {
   if (options) this.$options = options
   const { user, password, site } = this.$options
   this.$site = site || ''
