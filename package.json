@@ -1,6 +1,6 @@
 {
   "name": "tableau-rest",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "javascript sdk via tableau rest api",
   "main": "src/index.js",
   "files": [
