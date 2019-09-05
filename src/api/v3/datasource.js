@@ -6,10 +6,15 @@ const he = require('he')
 const downloadDir = path.resolve(path.parse(require.main.filename).dir, 'downloads')
 
 function queryDataSources (options = {}) {
+  const { pageSize, pageNumber } = options
+  const querys = []
+  if (pageSize) querys.push(`pageSize=${pageSize}`)
+  if (pageNumber) querys.push(`pageNumber=${pageNumber}`)
+
   return this
     .$request({
       method: 'GET',
-      url: 'datasources'
+      url: 'datasources' + (querys.length ? '?' + querys.join('&') : '')
     })
 }
 

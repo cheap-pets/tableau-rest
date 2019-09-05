@@ -4,9 +4,14 @@ const path = require('path')
 const downloadDir = path.resolve(path.parse(require.main.filename).dir, 'downloads')
 
 function queryWorkbooks (options = {}) {
+  const { pageSize, pageNumber } = options
+  const querys = []
+  if (pageSize) querys.push(`pageSize=${pageSize}`)
+  if (pageNumber) querys.push(`pageNumber=${pageNumber}`)
+  
   return this.$request({
     method: 'GET',
-    url: 'workbooks'
+    url: 'workbooks' + (querys.length ? '?' + querys.join('&') : '')
   })
 }
 
